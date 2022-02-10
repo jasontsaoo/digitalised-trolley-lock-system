@@ -34,5 +34,11 @@ void loop()
 {
   fetchTrolley();
   returnTrolley();
+
+  toggleSolenoid(true);
+  delay(1000);
+  toggleSolenoid(false);
+  delay(1000);
+
   WiFiClient client = server.available(); // listen for incoming clients
 }
