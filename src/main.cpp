@@ -36,27 +36,43 @@ void setup()
 
 void loop()
 {
-
   // check if you should unlock trolley
   shouldUnlock = fetchTrolley();
-  if (shouldUnlock)
+
+  if (shouldUnlock && flapConnected())
   {
-    // dp stuff here
+
+    toggleSolenoid(true);
+    afterUnlock();
+    WiFi.disconnect();
+    toggleSolenoid(false);
+
+    int x = true;
+    while (x == true)
+    {
+      if (lockInsertion())
+      {
+        WiFi.begin(ssid, password);
+        delay(1000);
+        returnTrolley();
+        x = false;
+      }
+    }
+
+    if (flapConnected() == false)
+    {
+      WiFi.disconnect();
+
+      int y = true;
+      while (y == true)
+      {
+        if (flapConnected() == true)
+        {
+          WiFi.begin(ssid, password);
+          y = false;
+        }
+      }
+    }
+
+    WiFiClient client = server.available(); // listen for incoming clients
   }
-
-  // call this after lock locks
-  returnTrolley();
-
-  // call this function after the lock unlocks
-  afterUnlock();
-
-  toggleSolenoid(true);
-  delay(1000);
-  toggleSolenoid(false);
-  delay(1000);
-
-  // checkServerResponse();
-  readTrolleyData();
-
-  WiFiClient client = server.available(); // listen for incoming clients
-}
