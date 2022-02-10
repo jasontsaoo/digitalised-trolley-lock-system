@@ -75,16 +75,17 @@ void fetchTrolley()
 void afterUnlock()
 {
   Serial.println("\n Setting isUnlocked");
-  if (WiFi.state() == WL_CONNECTED)
+  if (WiFi.status() == WL_CONNECTED)
   {
     HTTPClient http;
     String serverPath = baseUrl + "/trolley/setIsUnlocked";
 
     http.begin(serverPath.c_str());
-    int httpResponseCode = http.PUT({
-      "trolleyID" : ______,
-      "isUnlocked" : true
-    });
+
+    http.addHeader("Content-Type", "application/json");
+
+    int httpResponseCode = http.PUT("{\"trolleyID\":1, \"isUnlocked\":true}");
+
     if (httpResponseCode > 0)
     {
       Serial.println("All good. \n HTTP Response code:");
@@ -100,7 +101,7 @@ void afterUnlock()
   }
   else
   {
-    Serial.println("WIFI DISCONNECTED")
+    Serial.println("WIFI DISCONNECTED");
   }
 }
 
@@ -108,15 +109,14 @@ void afterUnlock()
 void returnTrolley()
 {
   Serial.println("\n Returning trolley");
-  if (WiFi.state() == WL_CONNECTED)
+  if (WiFi.status() == WL_CONNECTED)
   {
     HTTPClient http;
-    String serverpath = baseUrl + "/trolley/returnTrolley";
+    String serverPath = baseUrl + "/trolley/returnTrolley";
 
     http.begin(serverPath.c_str());
-    int httpResponseCode = http.PUT({
-      "trolleyID" : "__________"
-    });
+    http.addHeader("Content-Type", "application/json");
+    int httpResponseCode = http.PUT("{\"trolleyID\":1");
     if (httpResponseCode > 0)
     {
       Serial.println("All good. \n HTTP Response code:");
@@ -195,6 +195,7 @@ void setup()
 void loop()
 {
   fetchTrolley();
+  returnTrolley();
   WiFiClient client = server.available(); // listen for incoming clients
 }
 
