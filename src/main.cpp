@@ -1,8 +1,3 @@
-#include <Arduino.h>
-#include <WiFi.h>
-#include <WiFiClientSecure.h>
-#include <HTTPClient.h>
-#include <ArduinoJson.h>
 #include "connectionFunctions.h"
 #include "peripheralFunctions.h"
 
@@ -15,6 +10,7 @@ void setup()
   Serial.println("Hello from setup");
   // pinMode(externalHALL, INPUT);
   pinMode(LOCK, OUTPUT);
+  pinMode(externalHALL, INPUT);
 
   Serial.println();
   Serial.println();

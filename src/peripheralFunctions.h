@@ -1,9 +1,4 @@
 #include <Arduino.h>
-#include <WiFi.h>
-#include <WiFiClientSecure.h>
-#include <HTTPClient.h>
-#include <ArduinoJson.h>
-#include "connectionFunctions.h"
 
 // gpio number of the solenoid lock
 int LOCK = 12;
@@ -47,5 +42,18 @@ bool flapConnected()
     else
     {
         return false;
+    }
+}
+
+// function for lock
+void toggleSolenoid(bool input)
+{
+    if (input == true)
+    {
+        digitalWrite(LOCK, HIGH);
+    }
+    else
+    {
+        digitalWrite(LOCK, LOW);
     }
 }

@@ -3,7 +3,6 @@
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
-#include <peripheralFunctions.h>
 
 // hotspot wifi username + password
 const char *ssid = "Geturownwifilah";
