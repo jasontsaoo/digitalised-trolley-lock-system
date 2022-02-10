@@ -8,7 +8,7 @@ void setup()
 {
   Serial.begin(9600);
   Serial.println("Hello from setup");
-  // pinMode(externalHALL, INPUT);
+
   pinMode(LOCK, OUTPUT);
   pinMode(externalHALL, INPUT);
 
