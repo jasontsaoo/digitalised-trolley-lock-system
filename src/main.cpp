@@ -2,10 +2,12 @@
 #include "peripheralFunctions.h"
 
 WiFiServer server(80);
-WiFiClientSecure client;
+// WiFiClientSecure client;
+bool shouldUnlock;
 
 void setup()
 {
+  shouldUnlock = false;
   Serial.begin(9600);
   Serial.println("Hello from setup");
 
@@ -28,17 +30,33 @@ void setup()
   Serial.println("WiFi connected.");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+  // getServerSentEvents();
+  connectTrolley();
 }
 
 void loop()
 {
-  fetchTrolley();
+
+  // check if you should unlock trolley
+  shouldUnlock = fetchTrolley();
+  if (shouldUnlock)
+  {
+    // dp stuff here
+  }
+
+  // call this after lock locks
   returnTrolley();
+
+  // call this function after the lock unlocks
+  afterUnlock();
 
   toggleSolenoid(true);
   delay(1000);
   toggleSolenoid(false);
   delay(1000);
+
+  // checkServerResponse();
+  readTrolleyData();
 
   WiFiClient client = server.available(); // listen for incoming clients
 }
