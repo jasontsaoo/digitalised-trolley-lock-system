@@ -71,8 +71,71 @@ void fetchTrolley()
   delay(1000);
 }
 
-// hi
-// hiii
+// this should be called after the lock is actually unlocked
+void afterUnlock()
+{
+  Serial.println("\n Setting isUnlocked");
+  if (WiFi.state() == WL_CONNECTED)
+  {
+    HTTPClient http;
+    String serverPath = baseUrl + "/trolley/setIsUnlocked";
+
+    http.begin(serverPath.c_str());
+    int httpResponseCode = http.PUT({
+      "trolleyID" : ______,
+      "isUnlocked" : true
+    });
+    if (httpResponseCode > 0)
+    {
+      Serial.println("All good. \n HTTP Response code:");
+      Serial.println(httpResponseCode);
+    }
+    else
+    {
+      Serial.println("ERROR");
+      Serial.println(httpResponseCode);
+    }
+
+    http.end();
+  }
+  else
+  {
+    Serial.println("WIFI DISCONNECTED")
+  }
+}
+
+// this should be called after the trolley is returned
+void returnTrolley()
+{
+  Serial.println("\n Returning trolley");
+  if (WiFi.state() == WL_CONNECTED)
+  {
+    HTTPClient http;
+    String serverpath = baseUrl + "/trolley/returnTrolley";
+
+    http.begin(serverPath.c_str());
+    int httpResponseCode = http.PUT({
+      "trolleyID" : "__________"
+    });
+    if (httpResponseCode > 0)
+    {
+      Serial.println("All good. \n HTTP Response code:");
+      Serial.println(httpResponseCode);
+    }
+    else
+    {
+      Serial.println("ERROR");
+      Serial.println(httpResponseCode);
+    }
+
+    http.end();
+  }
+  else
+  {
+    Serial.println("WIFI DISCONNECTED");
+  }
+}
+
 //  if (!client.connect(baseUrl, 443))
 //  {
 //    Serial.println("Connection failed!");
