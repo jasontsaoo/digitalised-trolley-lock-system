@@ -136,7 +136,7 @@ void returnTrolley()
   }
 }
 
-// hi
+// hello
 //   if (!client.connect(baseUrl, 443))
 //   {
 //     Serial.println("Connection failed!");
