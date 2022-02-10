@@ -114,9 +114,18 @@ void returnTrolley()
     HTTPClient http;
     String serverPath = baseUrl + "/trolley/returnTrolley";
 
+    //construct the json
+    StaticJsonDocument<256> doc;
+    doc['trolleyID'] = 1;
+    char out[128];
+    int b =serializeJson(doc, out);
+    Serial.print("bytes = ");
+    Serial.println(b,DEC);
+
+
     http.begin(serverPath.c_str());
     http.addHeader("Content-Type", "application/json");
-    int httpResponseCode = http.PUT("{\"trolleyID\":1");
+    int httpResponseCode = http.PUT(out);
     if (httpResponseCode > 0)
     {
       Serial.println("All good. \n HTTP Response code:");
