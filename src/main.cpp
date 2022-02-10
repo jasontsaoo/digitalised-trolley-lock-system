@@ -71,18 +71,19 @@ void fetchTrolley()
   delay(1000);
 }
 
-// if (!client.connect(baseUrl, 443))
-// {
-//   Serial.println("Connection failed!");
-// }
-// else
-// {
-//   Serial.println("Connected to server!");
-//   String req_url_str;
-//   req_url_str = "GET /";
-//   req_url_str += "trolley/1";
-//   // req_url_str += user_path + ".json?auth=";
-//   // req_url_str += String(firebase_auth) + " HTTP/1.1\r\n";
+// hi
+//  if (!client.connect(baseUrl, 443))
+//  {
+//    Serial.println("Connection failed!");
+//  }
+//  else
+//  {
+//    Serial.println("Connected to server!");
+//    String req_url_str;
+//    req_url_str = "GET /";
+//    req_url_str += "trolley/1";
+//    // req_url_str += user_path + ".json?auth=";
+//    // req_url_str += String(firebase_auth) + " HTTP/1.1\r\n";
 
 //   String req_header_str;
 //   req_header_str = "Host: ";
