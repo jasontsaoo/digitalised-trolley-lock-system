@@ -4,6 +4,7 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include "connectionFunctions.h"
+#include "peripheralFunctions.h"
 
 WiFiServer server(80);
 WiFiClientSecure client;
