@@ -113,7 +113,7 @@ bool returnTrolley()
         int httpResponseCode = http.PUT("{\"trolleyID\": \"1\"}");
         if (httpResponseCode > 0)
         {
-            Serial.println("All good. \n HTTP Response code:");
+            Serial.println("All good trolley returned. \n HTTP Response code:");
             Serial.println(httpResponseCode);
         }
         else

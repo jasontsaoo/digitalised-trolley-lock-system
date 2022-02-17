@@ -12,9 +12,10 @@ bool lockInsertion()
     for (int i = 0; i < 1000; i++)
     {
         x += hallRead();
-        delayMicroseconds(100);
+        delayMicroseconds(1000);
     }
     x = (double)x / 1000.;
+
     if (x < 1)
     {
         return true;

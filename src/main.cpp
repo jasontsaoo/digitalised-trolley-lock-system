@@ -1,7 +1,6 @@
 #include "connectionFunctions.h"
 #include "peripheralFunctions.h"
 
-
 WiFiServer server(80);
 // WiFiClientSecure client;
 bool shouldUnlock;
@@ -44,6 +43,13 @@ void loop()
   {
 
     toggleSolenoid(true);
+    Serial.println("solenoid energised, waiting for user to pull out lock");
+
+    while (lockInsertion() == true)
+    {
+    };
+
+    Serial.println("user pulled out the lock, solenoid denergised");
     afterUnlock();
     WiFi.disconnect();
     toggleSolenoid(false);
@@ -51,29 +57,33 @@ void loop()
     int x = true;
     while (x == true)
     {
+      Serial.println("im spamming");
       if (lockInsertion())
       {
+        Serial.println("lock inserted");
         WiFi.begin(ssid, password);
         delay(1000);
         returnTrolley();
         x = false;
       }
     }
+    Serial.println("finally returned the trolley, leaving function");
+  }
 
-    if (flapConnected() == false)
+  if (flapConnected() == false)
+  {
+    WiFi.disconnect();
+
+    int y = true;
+    while (y == true)
     {
-      WiFi.disconnect();
-
-      int y = true;
-      while (y == true)
+      if (flapConnected() == true)
       {
-        if (flapConnected() == true)
-        {
-          WiFi.begin(ssid, password);
-          y = false;
-        }
+        WiFi.begin(ssid, password);
+        y = false;
       }
     }
-
-    WiFiClient client = server.available(); // listen for incoming clients
   }
+
+  WiFiClient client = server.available(); // listen for incoming clients
+}
