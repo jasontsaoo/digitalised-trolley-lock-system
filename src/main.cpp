@@ -4,6 +4,7 @@
 WiFiServer server(80);
 // WiFiClientSecure client;
 bool shouldUnlock;
+bool flapConnection;
 
 void setup()
 {
@@ -34,30 +35,58 @@ void loop()
 {
   // check if you should unlock trolley
   shouldUnlock = fetchTrolley();
+  flapConnection = flapConnected();
 
-  if (shouldUnlock && flapConnected())
+  delay(200);
+
+  if (shouldUnlock && flapConnection)
   {
+    Serial.println("WOOHOOOO UNLOCKING LOOP ACTIVATED");
 
     toggleSolenoid(true);
 
-    while (lockInsertion() == true)
+    while (lockInsertion1() == true)
     {
+      Serial.println("still waiting for lock to be removed");
+      delay(200);
     };
+    Serial.println("lock is removed, gg into afterUnlock");
 
     afterUnlock();
-    WiFi.disconnect();
+    // WiFi.disconnect();
     toggleSolenoid(false);
 
-    int x = true;
+    delay(5000);
+
+    bool x = true;
     while (x == true)
     {
-      if (lockInsertion())
+      if (lockInsertion2() == 1)
       {
-        WiFi.begin(ssid, password);
+
+        Serial.println("detected lock insertion, starting WiFi");
+        // WiFi.begin(ssid, password);
+        // while (WiFi.status() != WL_CONNECTED)
+        //{
+        //   delay(500);
+        //   Serial.print(".");
+        // }
+        // Serial.println("");
+        // Serial.println("WiFi connected.");
+        // Serial.println("IP address: ");
+        // Serial.print(WiFi.localIP());
+
+        // getServerSentEvents();
+        connectTrolley();
         delay(1000);
         returnTrolley();
         x = false;
       }
+      else
+      {
+        Serial.println("Still waiting for lock insertion");
+      }
+      delay(1000);
     }
   }
 
@@ -71,10 +100,22 @@ void loop()
       if (flapConnected() == true)
       {
         WiFi.begin(ssid, password);
+        while (WiFi.status() != WL_CONNECTED)
+        {
+          delay(500);
+          Serial.print(".");
+        }
+        Serial.println("");
+        Serial.println("WiFi connected.");
+        Serial.println("IP address: ");
+        Serial.print(WiFi.localIP());
+        // getServerSentEvents();
+        connectTrolley();
         y = false;
       }
     }
   }
 
-  WiFiClient client = server.available(); // listen for incoming clients
+  // WiFiClient client = server.available(); // listen for incoming clients
+  Serial.println("at the end of the loop, going back up?");
 }

@@ -68,7 +68,7 @@ bool fetchTrolley()
 }
 
 // this should be called after the lock is actually unlocked
-bool afterUnlock()
+void afterUnlock()
 {
     Serial.println("\nafterUnlock: function activated");
     if (WiFi.status() == WL_CONNECTED)
@@ -84,13 +84,13 @@ bool afterUnlock()
 
         if (httpResponseCode > 0)
         {
-            Serial.println("afterUnlock: function all good. HTTP Response code: ");
-            Serial.print(httpResponseCode);
+            Serial.print("afterUnlock: function all good. HTTP Response code: ");
+            Serial.println(httpResponseCode);
         }
         else
         {
-            Serial.println("afterUnlock: function facing issues, HTTP Response error code: ");
-            Serial.print(httpResponseCode);
+            Serial.print("afterUnlock: function facing issues, HTTP Response error code: ");
+            Serial.println(httpResponseCode);
         }
 
         http.end();
@@ -102,7 +102,7 @@ bool afterUnlock()
 }
 
 // this should be called after the trolley is returned
-bool returnTrolley()
+void returnTrolley()
 {
     Serial.println("\nreturnTrolley: function activated");
     if (WiFi.status() == WL_CONNECTED)
@@ -114,22 +114,22 @@ bool returnTrolley()
         int httpResponseCode = http.PUT("{\"trolleyID\": \"1\"}");
         if (httpResponseCode > 0)
         {
-            Serial.println("returnTrolley: function all good. HTTP Response code: ");
-            Serial.print(httpResponseCode);
+            Serial.print("returnTrolley: function all good. HTTP Response code: ");
+            Serial.println(httpResponseCode);
         }
         else
         {
-            Serial.println("returnTrolley: function facing issues, HTTP Response error code: ");
-            Serial.print(httpResponseCode);
+            Serial.print("returnTrolley: function facing issues, HTTP Response error code: ");
+            Serial.println(httpResponseCode);
         }
 
         http.end();
-        return httpResponseCode == 200;
+        // return httpResponseCode == 200;
     }
     else
     {
         Serial.println("returnTrolley: WiFi Disconnected");
-        return false;
+        // return false;
     }
 }
 
@@ -143,17 +143,17 @@ void connectTrolley()
         int httpResponseCode = trolleyHttp.GET();
         if (httpResponseCode > 0)
         {
-            Serial.println("connectTrolley: function all good. HTTP Response code: ");
-            Serial.print(httpResponseCode);
+            Serial.print("connectTrolley: function all good. HTTP Response code: ");
+            Serial.println(httpResponseCode);
             String payload = trolleyHttp.getString();
-            Serial.println("connectTrolley: payload: ");
-            Serial.print(payload);
+            Serial.print("connectTrolley: payload: ");
+            Serial.println(payload);
             parseJson(payload);
         }
         else
         {
-            Serial.println("connectTrolley: function facing issues, HTTP Response error code: ");
-            Serial.print(httpResponseCode);
+            Serial.print("connectTrolley: function facing issues, HTTP Response error code: ");
+            Serial.println(httpResponseCode);
         }
         // Free resources
         // trolleyHttp.end();
