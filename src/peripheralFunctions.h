@@ -20,7 +20,7 @@ void toggleSolenoid(bool input)
     }
 }
 
-// FIRST function for internal hall sensor
+// FIRST function to detect lock insertion (checking internal hall sensor)
 bool lockInsertion_hall()
 {
     float x = 0;
@@ -44,7 +44,7 @@ bool lockInsertion_hall()
         return false;
     }
 }
-// SECOND function for internal hall sensor
+// SECOND function to detect lock insertion (checking battery level increase)
 bool lockInsertion_battery()
 {
     float testList1[100];
