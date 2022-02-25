@@ -15,7 +15,7 @@ const String endpoint = "trolley/1";
 HTTPClient trolleyHttp;
 WiFiClientSecure client;
 
-void parseJson(String json)
+bool parseJson(String json)
 {
     DynamicJsonDocument doc(1024);
     deserializeJson(doc, json);
@@ -25,10 +25,12 @@ void parseJson(String json)
     if (shouldUnlock)
     {
         Serial.println("true");
+        return true;
     }
     else
     {
         Serial.println("false");
+        return false;
     }
 }
 
@@ -44,17 +46,25 @@ bool fetchTrolley()
         int httpResponseCode = http.GET();
         if (httpResponseCode > 0)
         {
-            Serial.println("fetchTrolley: function all good. HTTP Response code: ");
-            Serial.print(httpResponseCode);
+            Serial.print("fetchTrolley: function all good. HTTP Response code: ");
+            Serial.println(httpResponseCode);
             String payload = http.getString();
-            Serial.println("fetchTrolley: payload: ");
-            Serial.print(payload);
-            parseJson(payload);
+            Serial.print("fetchTrolley: payload: ");
+            Serial.println(payload);
+            if (parseJson(payload))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
             Serial.println("fetchTrolley: function facing issues, HTTP Response error code: ");
             Serial.print(httpResponseCode);
+            return false;
         }
         // Free resources
         http.end();

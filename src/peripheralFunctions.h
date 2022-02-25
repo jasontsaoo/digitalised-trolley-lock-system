@@ -1,12 +1,28 @@
 #include <Arduino.h>
 
+// for battery analog reading
+#define VBATPIN A9
+
 // gpio number of the solenoid lock
 int LOCK = 12;
 // gpio number of the external hall sensor
 int externalHALL = 34;
 
+// function for lock
+void toggleSolenoid(bool input)
+{
+    if (input == true)
+    {
+        digitalWrite(LOCK, HIGH);
+    }
+    else
+    {
+        digitalWrite(LOCK, LOW);
+    }
+}
+
 // FIRST function for internal hall sensor
-bool lockInsertion1()
+bool lockInsertion_hall()
 {
     float x = 0;
     for (int i = 0; i < 10000; i++)
@@ -18,31 +34,86 @@ bool lockInsertion1()
 
     if (x < 2)
     {
+        Serial.print("hall value is: ");
+        Serial.println(x);
         return true;
     }
     else
     {
+        Serial.print("hall value is: ");
+        Serial.println(x);
         return false;
     }
 }
-
 // SECOND function for internal hall sensor
-bool lockInsertion2()
+bool lockInsertion_battery()
 {
-    long h = 0;
-    int i = 0;
-    for (i = 0; i < 1000; i++)
+    float testList1[100];
+    for (int k = 0; k < 100; k++)
     {
-        h += hallRead();
-        delayMicroseconds(100);
+        float total_battery = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            double measuredvbat = analogRead(VBATPIN);
+            measuredvbat *= 2;    // we divided by 2, so multiply back
+            measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
+            measuredvbat /= 1024; // convert to voltage
+            total_battery += measuredvbat;
+            delayMicroseconds(10);
+        }
+
+        testList1[k] = total_battery / 10;
+    }
+    float max1 = testList1[0];
+    for (int j = 1; j < 100; j++)
+    {
+        if (testList1[j] > max1)
+        {
+            max1 = testList1[j]; // to find max1
+        }
     }
 
-    if (((double)h / 1000.) < 2)
+    Serial.print("vbatt max1 is: ");
+    Serial.println(max1);
+
+    delay(1000);
+
+    float testList2[100];
+    for (int k = 0; k < 100; k++)
     {
+        float total_battery = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            double measuredvbat = analogRead(VBATPIN);
+            measuredvbat *= 2;    // we divided by 2, so multiply back
+            measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
+            measuredvbat /= 1024; // convert to voltage
+            total_battery += measuredvbat;
+            delayMicroseconds(10);
+        }
+
+        testList2[k] = total_battery / 10;
+    }
+    float max2 = testList2[0];
+    for (int j = 1; j < 100; j++)
+    {
+        if (testList2[j] > max2)
+        {
+            max2 = testList2[j]; // to find max2
+        }
+    }
+
+    Serial.print("vbatt max2 is: ");
+    Serial.println(max2);
+
+    if (max2 > max1)
+    {
+        Serial.println("max2 is larger than max1, its charging!");
         return true;
     }
     else
     {
+        Serial.println("max1 is still smaller than max2, no charging.... :(");
         return false;
     }
 }
@@ -67,15 +138,24 @@ bool flapConnected()
     }
 }
 
-// function for lock
-void toggleSolenoid(bool input)
+/* SECOND function for internal hall sensor
+bool lockInsertion2()
 {
-    if (input == true)
+    long h = 0;
+    int i = 0;
+    for (i = 0; i < 1000; i++)
     {
-        digitalWrite(LOCK, HIGH);
+        h += hallRead();
+        delayMicroseconds(100);
+    }
+
+    if (((double)h / 1000.) < 2)
+    {
+        return true;
     }
     else
     {
-        digitalWrite(LOCK, LOW);
+        return false;
     }
 }
+*/

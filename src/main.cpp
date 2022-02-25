@@ -37,15 +37,13 @@ void loop()
   shouldUnlock = fetchTrolley();
   flapConnection = flapConnected();
 
-  delay(200);
-
   if (shouldUnlock && flapConnection)
   {
     Serial.println("WOOHOOOO UNLOCKING LOOP ACTIVATED");
 
     toggleSolenoid(true);
 
-    while (lockInsertion1() == true)
+    while (lockInsertion_hall() == true)
     {
       Serial.println("still waiting for lock to be removed");
       delay(200);
@@ -53,7 +51,7 @@ void loop()
     Serial.println("lock is removed, gg into afterUnlock");
 
     afterUnlock();
-    // WiFi.disconnect();
+    WiFi.disconnect();
     toggleSolenoid(false);
 
     delay(5000);
@@ -61,24 +59,24 @@ void loop()
     bool x = true;
     while (x == true)
     {
-      if (lockInsertion2() == 1)
+      if (lockInsertion_battery() == 1)
       {
 
         Serial.println("detected lock insertion, starting WiFi");
-        // WiFi.begin(ssid, password);
-        // while (WiFi.status() != WL_CONNECTED)
-        //{
-        //   delay(500);
-        //   Serial.print(".");
-        // }
-        // Serial.println("");
-        // Serial.println("WiFi connected.");
-        // Serial.println("IP address: ");
-        // Serial.print(WiFi.localIP());
+        WiFi.begin(ssid, password);
+        while (WiFi.status() != WL_CONNECTED)
+        {
+          delay(500);
+          Serial.print(".");
+        }
+        Serial.println("");
+        Serial.println("WiFi connected.");
+        Serial.println("IP address: ");
+        Serial.print(WiFi.localIP());
 
         // getServerSentEvents();
         connectTrolley();
-        delay(1000);
+        delay(500);
         returnTrolley();
         x = false;
       }
