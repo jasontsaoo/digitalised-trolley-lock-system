@@ -1,11 +1,10 @@
 #include <Arduino.h>
 
-// for battery analog reading
+// gpio pin for battery analog reading
 #define VBATPIN A9
-
-// gpio number of the solenoid lock
+// gpio pin of the solenoid lock
 int LOCK = 12;
-// gpio number of the external hall sensor
+// gpio pin of the external hall sensor
 int externalHALL = 34;
 
 // function for lock
@@ -138,7 +137,7 @@ bool flapConnected()
     }
 }
 
-/* SECOND function for internal hall sensor
+/* old SECOND function for internal hall sensor
 bool lockInsertion2()
 {
     long h = 0;

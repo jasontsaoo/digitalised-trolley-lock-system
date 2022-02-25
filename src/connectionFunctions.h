@@ -24,12 +24,10 @@ bool parseJson(String json)
     Serial.println(shouldUnlock);
     if (shouldUnlock)
     {
-        Serial.println("true");
         return true;
     }
     else
     {
-        Serial.println("false");
         return false;
     }
 }
@@ -66,15 +64,14 @@ bool fetchTrolley()
             Serial.print(httpResponseCode);
             return false;
         }
-        // Free resources
         http.end();
     }
     else
     {
         Serial.println("fetchTrolley: WiFi Disconnected");
+        return false;
     }
     delay(1000);
-    return true;
 }
 
 // this should be called after the lock is actually unlocked
@@ -85,11 +82,8 @@ void afterUnlock()
     {
         HTTPClient http;
         String serverPath = baseUrl + "trolley/setIsUnlocked";
-
         http.begin(serverPath.c_str());
-
         http.addHeader("Content-Type", "application/json");
-
         int httpResponseCode = http.PUT("{\"trolleyID\":\"1\", \"isUnlocked\": true}");
 
         if (httpResponseCode > 0)
@@ -134,12 +128,10 @@ void returnTrolley()
         }
 
         http.end();
-        // return httpResponseCode == 200;
     }
     else
     {
         Serial.println("returnTrolley: WiFi Disconnected");
-        // return false;
     }
 }
 
@@ -165,8 +157,6 @@ void connectTrolley()
             Serial.print("connectTrolley: function facing issues, HTTP Response error code: ");
             Serial.println(httpResponseCode);
         }
-        // Free resources
-        // trolleyHttp.end();
     }
     else
     {

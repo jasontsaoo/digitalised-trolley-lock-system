@@ -2,7 +2,6 @@
 #include "peripheralFunctions.h"
 
 WiFiServer server(80);
-// WiFiClientSecure client;
 bool shouldUnlock;
 bool flapConnection;
 
@@ -14,8 +13,8 @@ void setup()
 
   Serial.begin(9600);
   Serial.println("Hello from setup");
-  Serial.println("Connecting to ");
-  Serial.print(ssid);
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED)
@@ -25,8 +24,8 @@ void setup()
   }
   Serial.println("");
   Serial.println("WiFi connected.");
-  Serial.println("IP address: ");
-  Serial.print(WiFi.localIP());
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
   // getServerSentEvents();
   connectTrolley();
 }
@@ -39,21 +38,17 @@ void loop()
 
   if (shouldUnlock && flapConnection)
   {
-    Serial.println("WOOHOOOO UNLOCKING LOOP ACTIVATED");
-
+    Serial.println("Unlocking loop activated");
     toggleSolenoid(true);
-
     while (lockInsertion_hall() == true)
     {
-      Serial.println("still waiting for lock to be removed");
+      Serial.println("Still waiting for lock to be removed");
       delay(200);
     };
-    Serial.println("lock is removed, gg into afterUnlock");
-
+    Serial.println("lock is removed, going into afterUnlock function");
     afterUnlock();
     WiFi.disconnect();
     toggleSolenoid(false);
-
     delay(5000);
 
     bool x = true;
@@ -61,7 +56,6 @@ void loop()
     {
       if (lockInsertion_battery() == 1)
       {
-
         Serial.println("detected lock insertion, starting WiFi");
         WiFi.begin(ssid, password);
         while (WiFi.status() != WL_CONNECTED)
@@ -71,9 +65,8 @@ void loop()
         }
         Serial.println("");
         Serial.println("WiFi connected.");
-        Serial.println("IP address: ");
-        Serial.print(WiFi.localIP());
-
+        Serial.print("IP address: ");
+        Serial.println(WiFi.localIP());
         // getServerSentEvents();
         connectTrolley();
         delay(500);
@@ -105,8 +98,8 @@ void loop()
         }
         Serial.println("");
         Serial.println("WiFi connected.");
-        Serial.println("IP address: ");
-        Serial.print(WiFi.localIP());
+        Serial.print("IP address: ");
+        Serial.println(WiFi.localIP());
         // getServerSentEvents();
         connectTrolley();
         y = false;
@@ -114,6 +107,5 @@ void loop()
     }
   }
 
-  // WiFiClient client = server.available(); // listen for incoming clients
-  Serial.println("at the end of the loop, going back up?");
+  Serial.println("Reached the end of the loop, going back up the loop");
 }
