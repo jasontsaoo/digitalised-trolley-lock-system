@@ -31,7 +31,7 @@ bool lockInsertion_hall()
     }
     x = x / 10000.000000;
 
-    if (x < 2)
+    if (x < 1.5)
     {
         Serial.print("hall value is: ");
         Serial.println(x);
