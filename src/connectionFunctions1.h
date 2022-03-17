@@ -10,11 +10,7 @@ const char *password = "lvys3318";
 
 // Network
 const String baseUrl = "https://stormy-stream-68782.herokuapp.com/";
-<<<<<<< HEAD
 const String endpoint = "trolley/1";
-=======
-const String endpoint = "trolley/2";
->>>>>>> 40799106d647d23544c453e8da95bce061251c20
 
 HTTPClient trolleyHttp;
 WiFiClientSecure client;
@@ -88,11 +84,7 @@ void afterUnlock()
         String serverPath = baseUrl + "trolley/setIsUnlocked";
         http.begin(serverPath.c_str());
         http.addHeader("Content-Type", "application/json");
-<<<<<<< HEAD
         int httpResponseCode = http.PUT("{\"trolleyID\":\"1\", \"isUnlocked\": true}");
-=======
-        int httpResponseCode = http.PUT("{\"trolleyID\":\"2\", \"isUnlocked\": true}");
->>>>>>> 40799106d647d23544c453e8da95bce061251c20
 
         if (httpResponseCode > 0)
         {
@@ -123,11 +115,7 @@ void returnTrolley()
         String serverPath = baseUrl + "trolley/returnTrolley";
         http.begin(serverPath.c_str());
         http.addHeader("Content-Type", "application/json");
-<<<<<<< HEAD
         int httpResponseCode = http.PUT("{\"trolleyID\": \"1\"}");
-=======
-        int httpResponseCode = http.PUT("{\"trolleyID\": \"2\"}");
->>>>>>> 40799106d647d23544c453e8da95bce061251c20
         if (httpResponseCode > 0)
         {
             Serial.print("returnTrolley: function all good. HTTP Response code: ");
@@ -152,11 +140,7 @@ void connectTrolley()
     Serial.println("\n:connectTrolley function activated");
     if (WiFi.status() == WL_CONNECTED)
     {
-<<<<<<< HEAD
         String serverPath = baseUrl + "trolley/connect/1";
-=======
-        String serverPath = baseUrl + "trolley/connect/2";
->>>>>>> 40799106d647d23544c453e8da95bce061251c20
         trolleyHttp.begin(serverPath.c_str());
         int httpResponseCode = trolleyHttp.GET();
         if (httpResponseCode > 0)
@@ -205,9 +189,6 @@ void readTrolleyData()
         //     Serial.print("\\n"); //ラインフィード
         Serial.print(c);
     }
-<<<<<<< HEAD
-}
-=======
 }
 
 // void getServerSentEvents()
@@ -271,4 +252,3 @@ void readTrolleyData()
 //   Serial.print(req_url_str);
 //   Serial.print(req_header_str);
 // }
->>>>>>> 40799106d647d23544c453e8da95bce061251c20
