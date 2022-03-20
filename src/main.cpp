@@ -1,4 +1,4 @@
-#include "connectionFunctions1.h"
+#include "connectionFunctions.h"
 #include "peripheralFunctions.h"
 
 WiFiServer server(80);
