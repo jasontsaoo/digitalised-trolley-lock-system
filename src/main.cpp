@@ -46,8 +46,10 @@ void loop()
       Serial.println("Still waiting for lock to be removed");
       delay(200);
     };
+    toggleLED(true);
     Serial.println("lock is removed, going into afterUnlock function");
     afterUnlock();
+    delay(200);
     WiFi.disconnect();
     toggleSolenoid(false);
     delay(5000);
@@ -57,6 +59,7 @@ void loop()
     {
       if (lockInsertion_battery() == 1)
       {
+        toggleLED(false);
         Serial.println("detected lock insertion, starting WiFi");
         WiFi.begin(ssid, password);
         while (WiFi.status() != WL_CONNECTED)
