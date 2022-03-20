@@ -9,6 +9,7 @@ void setup()
 {
   pinMode(LOCK, OUTPUT);
   pinMode(externalHALL, INPUT);
+  pinMode(LED, OUTPUT);
   shouldUnlock = false;
 
   Serial.begin(9600);

@@ -6,6 +6,8 @@
 int LOCK = 12;
 // gpio pin of the external hall sensor
 int externalHALL = 34;
+// gpio pin for led
+int LED = 27;
 
 // function for lock
 void toggleSolenoid(bool input)
@@ -17,6 +19,19 @@ void toggleSolenoid(bool input)
     else
     {
         digitalWrite(LOCK, LOW);
+    }
+}
+
+// function for LED
+void toggleLED(bool input)
+{
+    if (input == true)
+    {
+        digitalWrite(LED, HIGH);
+    }
+    else
+    {
+        digitalWrite(LED, LOW);
     }
 }
 
