@@ -41,18 +41,24 @@ void loop()
   {
     Serial.println("Unlocking loop activated");
     toggleSolenoid(true);
+    toggleLED(true);
     while (lockInsertion_hall() == true)
     {
       Serial.println("Still waiting for lock to be removed");
       delay(200);
     };
-    toggleLED(true);
     Serial.println("lock is removed, going into afterUnlock function");
-    afterUnlock();
-    delay(200);
+
+    bool y = false;
+    while (!y)
+    {
+      y = afterUnlock();
+      delay(500);
+    }
+
     WiFi.disconnect();
     toggleSolenoid(false);
-    delay(5000);
+    delay(500);
 
     bool x = true;
     while (x == true)

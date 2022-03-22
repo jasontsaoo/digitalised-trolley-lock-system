@@ -62,6 +62,75 @@ bool lockInsertion_hall()
 // SECOND function to detect lock insertion (checking battery level increase)
 bool lockInsertion_battery()
 {
+    float total_battery1 = 0;
+    for (int k = 0; k < 1000; k++)
+    {
+
+        double measuredvbat = analogRead(VBATPIN);
+        measuredvbat *= 2;    // we divided by 2, so multiply back
+        measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
+        measuredvbat /= 1024; // convert to voltage
+        total_battery1 += measuredvbat;
+        delayMicroseconds(10);
+    }
+    total_battery1 = total_battery1 / 1000;
+
+    Serial.print("vbatt1 is: ");
+    Serial.println(total_battery1);
+
+    delay(2000);
+
+    float total_battery2 = 0;
+    for (int k = 0; k < 1000; k++)
+    {
+
+        double measuredvbat = analogRead(VBATPIN);
+        measuredvbat *= 2;    // we divided by 2, so multiply back
+        measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
+        measuredvbat /= 1024; // convert to voltage
+        total_battery2 += measuredvbat;
+        delayMicroseconds(10);
+    }
+    total_battery2 = total_battery2 / 1000;
+
+    Serial.print("vbatt2 is: ");
+    Serial.println(total_battery2);
+
+    if (total_battery2 > total_battery1)
+    {
+        Serial.println("vbatt2 is larger than vbatt1, its charging!");
+        return true;
+    }
+    else
+    {
+        Serial.println("vbatt1 is still smaller than vbatt2, no charging.... :(");
+        return false;
+    }
+}
+
+// function for external hall sensor
+bool flapConnected()
+{
+    long x = 0;
+    for (int i = 0; i < 1000; i++)
+    {
+        x += analogRead(externalHALL);
+        delayMicroseconds(100);
+    }
+    x = (double)x / 1000.;
+    if (x > 2000)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+/*
+bool lockInsertion_battery1()
+{
     float testList1[100];
     for (int k = 0; k < 100; k++)
     {
@@ -131,26 +200,7 @@ bool lockInsertion_battery()
         return false;
     }
 }
-
-// function for external hall sensor
-bool flapConnected()
-{
-    long x = 0;
-    for (int i = 0; i < 1000; i++)
-    {
-        x += analogRead(externalHALL);
-        delayMicroseconds(100);
-    }
-    x = (double)x / 1000.;
-    if (x > 2000)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
+*/
 
 /* old SECOND function for internal hall sensor
 bool lockInsertion2()

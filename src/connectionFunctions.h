@@ -75,7 +75,7 @@ bool fetchTrolley()
 }
 
 // this should be called after the lock is actually unlocked
-void afterUnlock()
+bool afterUnlock()
 {
     Serial.println("\nafterUnlock: function activated");
     if (WiFi.status() == WL_CONNECTED)
@@ -90,11 +90,13 @@ void afterUnlock()
         {
             Serial.print("afterUnlock: function all good. HTTP Response code: ");
             Serial.println(httpResponseCode);
+            return true;
         }
         else
         {
             Serial.print("afterUnlock: function facing issues, HTTP Response error code: ");
             Serial.println(httpResponseCode);
+            return false;
         }
 
         http.end();
@@ -102,6 +104,7 @@ void afterUnlock()
     else
     {
         Serial.println("afterUnlock: WiFi Disconnected");
+        return false;
     }
 }
 
