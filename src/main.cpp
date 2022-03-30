@@ -55,7 +55,7 @@ void loop()
       y = afterUnlock();
       delay(500);
     }
-
+    Serial.println("DISCONNECTING");
     WiFi.disconnect();
     toggleSolenoid(false);
     delay(500);
@@ -93,6 +93,7 @@ void loop()
 
   if (flapConnected() == false)
   {
+    Serial.println("DISCONNECTING LOL");
     WiFi.disconnect();
     int y = true;
 

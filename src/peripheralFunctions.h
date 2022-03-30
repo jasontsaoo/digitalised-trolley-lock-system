@@ -118,7 +118,10 @@ bool flapConnected()
         delayMicroseconds(100);
     }
     x = (double)x / 1000.;
-    if (x > 2000)
+    Serial.print("External hall sensor value:");
+    Serial.println(x);
+
+    if (x < 2000)
     {
         return true;
     }
