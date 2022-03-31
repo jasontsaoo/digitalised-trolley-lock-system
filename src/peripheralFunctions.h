@@ -78,7 +78,7 @@ bool lockInsertion_battery()
     Serial.print("vbatt1 is: ");
     Serial.println(total_battery1);
 
-    delay(2000);
+    delay(3000);
 
     float total_battery2 = 0;
     for (int k = 0; k < 1000; k++)
@@ -96,7 +96,7 @@ bool lockInsertion_battery()
     Serial.print("vbatt2 is: ");
     Serial.println(total_battery2);
 
-    if (total_battery2 > total_battery1)
+    if ((total_battery2 - total_battery1) > 0.01)
     {
         Serial.println("vbatt2 is larger than vbatt1, its charging!");
         return true;
