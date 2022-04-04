@@ -10,7 +10,7 @@ const char *password = "lvys3318";
 
 // Network
 const String baseUrl = "https://stormy-stream-68782.herokuapp.com/";
-const String endpoint = "trolley/2";
+const String endpoint = "trolley/1";
 
 HTTPClient trolleyHttp;
 WiFiClientSecure client;
@@ -84,7 +84,7 @@ bool afterUnlock()
         String serverPath = baseUrl + "trolley/setIsUnlocked";
         http.begin(serverPath.c_str());
         http.addHeader("Content-Type", "application/json");
-        int httpResponseCode = http.PUT("{\"trolleyID\":\"2\", \"isUnlocked\": true}");
+        int httpResponseCode = http.PUT("{\"trolleyID\":\"1\", \"isUnlocked\": true}");
 
         if (httpResponseCode > 0)
         {
@@ -118,7 +118,7 @@ void returnTrolley()
         String serverPath = baseUrl + "trolley/returnTrolley";
         http.begin(serverPath.c_str());
         http.addHeader("Content-Type", "application/json");
-        int httpResponseCode = http.PUT("{\"trolleyID\": \"2\"}");
+        int httpResponseCode = http.PUT("{\"trolleyID\": \"1\"}");
         if (httpResponseCode > 0)
         {
             Serial.print("returnTrolley: function all good. HTTP Response code: ");
@@ -143,7 +143,7 @@ void connectTrolley()
     Serial.println("\n:connectTrolley function activated");
     if (WiFi.status() == WL_CONNECTED)
     {
-        String serverPath = baseUrl + "trolley/connect/2";
+        String serverPath = baseUrl + "trolley/connect/1";
         trolleyHttp.begin(serverPath.c_str());
         int httpResponseCode = trolleyHttp.GET();
         if (httpResponseCode > 0)
