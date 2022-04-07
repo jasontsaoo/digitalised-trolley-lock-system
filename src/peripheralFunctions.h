@@ -46,7 +46,7 @@ bool lockInsertion_hall()
     }
     x = x / 10000.000000;
 
-    if (x < 2) // trolley 1 uses 2, trolley 2 uses 1.3
+    if (x < 5) // trolley1 uses 2, trolley2 uses 5
     {
         Serial.print("hall value is: ");
         Serial.println(x);
@@ -121,7 +121,7 @@ bool flapConnected()
     Serial.print("External hall sensor value:");
     Serial.println(x);
 
-    if (x > 2100) // trolley 1 uses >2100, trolley 2 uses > 2000
+    if (x > 2000) // trolley 1 uses >2100, trolley 2 uses > 2000
     {
         return true;
     }
