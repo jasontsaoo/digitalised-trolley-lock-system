@@ -2,6 +2,7 @@
 #include "peripheralFunctions.h"
 
 WiFiServer server(80);
+//gygyg
 bool shouldUnlock;
 bool flapConnection;
 
